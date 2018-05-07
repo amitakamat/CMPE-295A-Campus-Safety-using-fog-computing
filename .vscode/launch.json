@@ -2,11 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name":"Debug index.ts",
+            "name":"Debug objectdetection.ts",
             "type":"node",
             "request": "launch",
             "args" : [
-                "src/index.ts"
+                "src/objectdetection.ts"
             ],
             "runtimeArgs": [
                 "-r",

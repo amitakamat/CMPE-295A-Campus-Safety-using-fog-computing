@@ -7,6 +7,10 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@google-cloud/vision": "^0.19.0",
+    "fs": "0.0.1-security",
+    "grpc": "^1.0.1",
+    "microsoft-computer-vision": "^0.3.3",
     "request": "^2.83.0"
   },
   "devDependencies": {
