@@ -1,0 +1,23 @@
+person group created for: ${personGroupId2}
+index.ts:57
+Array(4) ["Haroon", "Laura", "Leon", "Nethra"]
+index.ts:59
+Created personId: {"personId":"96a4dd87-7cb7-4535-bc7c-2c009fcd5af7"} for person: Laura
+index.ts:63
+Created personId: {"personId":"56ca02ae-8aa5-4b0e-99dd-6599607d2abc"} for person: Nethra
+index.ts:63
+Created personId: {"personId":"0d019f7c-21c5-4cce-accd-8c3bc2b1506f"} for person: Leon
+index.ts:63
+Created personId: {"personId":"7213cb38-97ae-4fc1-a295-8ab588f02e10"} for person: Haroon
+index.ts:63
+For personId: {"persistedFaceId":"1d2677b5-b7f4-4c6a-a5f9-e91c201851dd"} person: Leon added face: 1.jpg,2.jpg,3.jpg got persistedFaceId: {"persistedFaceId":"1d2677b5-b7f4-4c6a-a5f9-e91c201851dd"}
+index.ts:72
+For personId: {"persistedFaceId":"64ee139f-b31d-4a29-b936-d8271fa7063c"} person: Laura added face: 1.jpg,2.jpg,3.jpg got persistedFaceId: {"persistedFaceId":"64ee139f-b31d-4a29-b936-d8271fa7063c"}
+index.ts:72
+For personId: {"persistedFaceId":"f07f6abe-2496-4031-8df4-684a1932d935"} person: Leon added face: 1.jpg,2.jpg,3.jpg got persistedFaceId: {"persistedFaceId":"f07f6abe-2496-4031-8df4-684a1932d935"}
+index.ts:72
+For personId: {"persistedFaceId":"99f154fe-5509-4346-83b8-62319248740d"} person: Laura added face: 1.jpg,2.jpg,3.jpg got persistedFaceId: {"persistedFaceId":"99f154fe-5509-4346-83b8-62319248740d"}
+index.ts:72
+For personId: {"persistedFaceId":"a4d0f060-0265-4598-a188-757873951f96"} person: Leon added face: 1.jpg,2.jpg,3.jpg got persistedFaceId: {"persistedFaceId":"a4d0f060-0265-4598-a188-757873951f96"}
+index.ts:72
+For personId: {"persistedFaceId":"58e74ee1-8258-4c3e-b472-5e2b194b110c"} person: Laura added face: 1.jpg,2.jpg,3.jpg got persistedFaceId: {"persistedFaceId":"58e74ee1-8258-4c3e-b472-5e2b194b110c"}

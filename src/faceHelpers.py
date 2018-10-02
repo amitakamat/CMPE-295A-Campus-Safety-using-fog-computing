@@ -1,3 +1,34 @@
+from __future__ import print_function
+import time 
+import requests
+import operator
+import numpy as np
+
+// Creates a person group and returns personGroupId
+export function createPersonGroup(personGroupId: string): Promise<string> {
+    const promise = new Promise<string>((resolve, reject) => {
+        const requestOptions = getRequestOptions();
+        requestOptions.headers['Content-Type'] = 'application/json';
+        requestOptions.body = JSON.stringify({
+            'name': personGroupId
+        });
+
+        request.put(
+            config.face.endPoint + '/persongroups/' + personGroupId,
+            requestOptions,
+            (err, response, body) => {
+                if (err) { reject(false); }
+                else { resolve(personGroupId); }
+            }
+        )
+    });
+    return promise;
+}
+
+# Import library to display results
+import matplotlib.pyplot as plt
+
+"""
 import * as request from 'request';
 import { config } from './config';
 import * as querystring from 'querystring';
@@ -175,3 +206,4 @@ function getRequestOptions(): request.CoreOptions {
         }
     };
 }
+"""

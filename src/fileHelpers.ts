@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { Buffer } from 'buffer';
 
-export function getFriends(dirName: string): Array<string> {
+export function getPersons(dirName: string): Array<string> {
     const fullDirName = __dirname + '/' + dirName;
     let toReturn: Array<string> = [];
     let results = fs.readdirSync(fullDirName);
@@ -13,7 +13,7 @@ export function getFriends(dirName: string): Array<string> {
     return toReturn;
 }
 
-export function getFriendPictures(friendName: string, folderName: string): Array<string> {
+export function getPersonPictures(friendName: string, folderName: string): Array<string> {
     let toReturn: Array<string> = [];
     const fullDirName = __dirname + '/'+ folderName + '/' + friendName;
     let results = fs.readdirSync(fullDirName);
