@@ -169,41 +169,6 @@ img = '/Users/haroon/sjsu/CMPE-295A-Campus-Safety-using-fog-computing/src/Studen
 result = CF.face.detect(img_url)
 
 
-
-//Step 1a: create personGroup for Criminals
-const personGroupId1 = 'criminals';
-/*
-var personsFaceMap: Map<string, string> = new Map<string, string>();
-
-faceHelpers.createPersonGroup(personGroupId1).then(result => {
-    if (result === personGroupId1) {
-        console.log('person group created for: ${personGroupId1} ');
-        const criminals = fileHelpers.getPersons('Criminals');
-        console.log(criminals);
-        criminals.forEach(criminal => {
-            faceHelpers.createPerson(personGroupId1, criminal).then(result => {
-                const personId = result;
-                console.log(`Created personId: ${result} for person: ${criminal}`)
-                
-                personsFaceMap.set(criminal, (<any>JSON.parse(personId)).personId);           
-                
-                const criminalPictures = fileHelpers.getPersonPictures(criminal,'Criminals');
-                
-                criminalPictures.forEach(criminalPicture => {
-                    const criminalFaceFileName = __dirname + '/Criminals/' + criminal + '/' + criminalPicture;
-                    faceHelpers.addPersonFace(
-                        criminalFaceFileName,
-                        personId,
-                        personGroupId1
-                    ).then(result => {
-                        console.log(`For personId: ${result} person: ${criminal} added face: ${criminalPicture} got persistedFaceId: ${result}`);
-                    });
-                });
-            });
-        });
-    }
-});
-
 /*
  //Step 2: Train person group
  faceHelpers.trainPersonGroup(personGroupId2).then(result => {
