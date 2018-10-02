@@ -14,6 +14,8 @@ def createPersonGroup(personGroupId):
         return CF.person_group.create(personGroupId)
     except CF.util.CognitiveFaceException as cfe:
         print(cfe)
+        print(cfe.msg)
+        print(cfe.code)
         return 0
 
 
@@ -159,23 +161,12 @@ def listPersons(personGroupId, topGroups):
 #######################################################################################################
 
 
-
-
-
 """
 img_url = 'https://raw.githubusercontent.com/Microsoft/Cognitive-Face-Windows/master/Data/detection1.jpg'
 img = '/Users/haroon/sjsu/CMPE-295A-Campus-Safety-using-fog-computing/src/Students/Nethra/Nethra1.jpeg'
 result = CF.face.detect(img_url)
 
-/* const personGroupId1 = 'criminals';
- faceHelpers.deletePersonGroup(personGroupId1).then(result => {
-    if(result) 
-    {
-        console.log('deleted person group');
-        console.log(result);
-    }
-    else console.log('error deleting the person group')
-});  */
+
 
 //Step 1a: create personGroup for Criminals
 const personGroupId1 = 'criminals';
@@ -208,47 +199,9 @@ faceHelpers.createPersonGroup(personGroupId1).then(result => {
                 });
             });
         });
-        console.log("printing personsFaceMap");
-personsFaceMap.forEach((value: string, key: string) => {
-    console.log(key, value);
-    });
     }
 });
-*/
-//Step 1b: create personGroup for Students
-const personGroupId2 = 'students';
-/*
-faceHelpers.createPersonGroup(personGroupId2).then(result => {
-    if (result === personGroupId2) {
-        console.log('person group created for: ${personGroupId2}');
-        const students = fileHelpers.getPersons('Students');
-        console.log(students);
-        students.forEach(student => {
-            faceHelpers.createPerson(personGroupId2, student).then(result => {
-                const personId = result;
-                console.log(`Created personId: ${result} for person: ${student}`)
-                const studentPictures = fileHelpers.getPersonPictures(student,'Students');
-                studentPictures.forEach(studentPicture => {
-                    const studentFaceFileName = __dirname + '/Students/' + student + '/' + studentPicture;
-                    faceHelpers.addPersonFace(
-                        studentFaceFileName,
-                        personId,
-                        personGroupId2
-                    ).then(result => {
-                        console.log(`For personId: ${result} person: ${student} added face: ${studentPictures} got persistedFaceId: ${result}`);
-                    });
-                });
-            });
-        });
-    }
-});
-*/
-/*
- //Step 2: Train person group
-faceHelpers.trainPersonGroup(personGroupId2).then(result => {
-    if (result) console.log('personGroup2 trained');
-});
-*/
+
 /*
  //Step 2: Train person group
  faceHelpers.trainPersonGroup(personGroupId2).then(result => {
