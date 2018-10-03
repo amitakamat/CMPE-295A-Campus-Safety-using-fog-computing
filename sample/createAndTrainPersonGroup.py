@@ -41,7 +41,8 @@ def addFacesForPersons(personGroupId, folderName):
             print('Adding face {} of {} in {}'.format(picture, person, personGroupId))
             persFaceIdDict = addPersonFace(picture, personGroupId, personDict['personId'])
             print(persFaceIdDict)
-            personNameToPersonIdDict[person]['persisted-face-id-list'].append(persFaceIdDict['persistedFaceId'])
+            if persFaceIdDict:
+                personNameToPersonIdDict[person]['persisted-face-id-list'].append(persFaceIdDict['persistedFaceId'])
 
 
 
