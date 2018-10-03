@@ -2,19 +2,16 @@ from faceHelpers import *
 from fileHelpers import *
 import json
 from PersonRepository import PersonRepository
+import time
 
-personGroupId = 'sjsucriminals'
-folderName = 'Criminals'
+personGroupId = 'sjsustudents'
+folderName = 'Students'
 personRepo = PersonRepository()
 
 # Dict to store person id's of the persons created
 personNameToPersonIdDict = {}
 
-# try to read data from database if it exists
-personNameToPersonIdDict = personRepo.readFromFile(personGroupId)
-
 # Step 1 : create person group
-#createPersonGroup(personGroupId)
 
 # Step 2 : Add persons to person_group
 def addPersonsToPersonGroup(personGroupId):
@@ -29,7 +26,7 @@ def addPersonsToPersonGroup(personGroupId):
             personNameToPersonIdDict[person] = { 'personId' : personIdDict.get('personId'),
                 'persisted-face-id-list' : [] }
             print('Successfully added {} to person_group {}\n'.format(person, personGroupId))
-        personRepo.writeToFile(personNameToPersonIdDict, personGroupId)
+        personRepo.writeToRepository(personNameToPersonIdDict, personGroupId)
     else:
         print('No persons found in location: {}'.format(folderName))
         exit(0)
@@ -37,6 +34,7 @@ def addPersonsToPersonGroup(personGroupId):
 # b. Add faces for persons in person_group
 
 def addFacesForPersons(personGroupId, folderName):
+    """ Add faces for each person available in database """
     for person, personDict in personNameToPersonIdDict.items():
         print(person, personDict)
         for picture in getPersonPictures(person, folderName):
@@ -44,16 +42,45 @@ def addFacesForPersons(personGroupId, folderName):
             persFaceIdDict = addPersonFace(picture, personGroupId, personDict['personId'])
             print(persFaceIdDict)
             personNameToPersonIdDict[person]['persisted-face-id-list'].append(persFaceIdDict['persistedFaceId'])
-    personRepo.writeToFile(personNameToPersonIdDict, personGroupId)
+
+
+
+personGroupCreationStatus = createPersonGroup(personGroupId)
+if personGroupCreationStatus == -1:
+    personNameToPersonIdDict = personRepo.readFromRepository(personGroupId)
+    print(personNameToPersonIdDict)    
+else:
+    # Add persons to person group
+    addPersonsToPersonGroup(personGroupId)            
+
+    # Add faces for persons
+    addFacesForPersons(personGroupId, folderName)
+
+    # Write to database
+    personRepo.writeToRepository(personNameToPersonIdDict, personGroupId)
     print(personNameToPersonIdDict)
 
-if not personNameToPersonIdDict:
-    addPersonsToPersonGroup(personGroupId)            
-    addFacesForPersons(personGroupId, folderName)
-else:
-    print('read data from database')
+    # Train the person group
+    trainPersonGroup(personGroupId)
 
-print(personNameToPersonIdDict)
+# Get training status of the person group
+
+retries = 5
+while retries > 0:
+    trainingStatus = getPersonGroupTrainingStatus(personGroupId)
+    if trainingStatus['status'] == 'succeeded':
+        print('Training completed!')
+        break
+    else:
+        retries -= 1
+        time.sleep(15)
+        print('retrying {} more time(s)'.format(retries))
+###################################################################################
+
+
+
+
+
 
 
 

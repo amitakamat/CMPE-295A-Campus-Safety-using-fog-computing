@@ -15,6 +15,7 @@ def createPersonGroup(personGroupId):
         return returnObj
     except CF.util.CognitiveFaceException as cfe:
         print('{}: {}'.format(cfe.code, cfe.msg))
+        return -1
 
 def deletePersonGroup(personGroupId):
     try:
@@ -154,9 +155,52 @@ def listPersons(personGroupId, topGroups):
     except CF.util.CognitiveFaceException as cfe:
         print('{}: {}'.format(cfe.code, cfe.msg))
 
-#######################################################################################################
+##################################### Face #########################################################
+def detectPersonFace(image, face_id=True, landmarks=False, attributes=''):
+    """
+    Detect human faces in an image and returns face locations, and
+    optionally with `face_id`s, landmarks, and attributes.
+
+    Returns: An array of face entries ranked by face rectangle size in descending
+    order. An empty response indicates no faces detected. A face entry may
+    contain the corresponding values depending on input parameters.
+
+    [{'faceId': '8a1b5824-c0ca-4e02-bcfe-95d89ad69ff4',
+     'faceRectangle': {'top': 2269, 'left': 634, 'width': 931, 'height': 931},
+     'faceAttributes': {'smile': 1.0, 'age': 37.0,
+     'emotion': {'anger': 0.0, 'contempt': 0.0, 'disgust': 0.0, 'fear': 0.0,
+     'happiness': 1.0, 'neutral': 0.0, 'sadness': 0.0, 'surprise': 0.0}}
+    }]
+
+    """
+    try:
+        return CF.face.detect(image, face_id, landmarks, attributes)
+    except CF.util.CognitiveFaceException as cfe:
+        print('{}: {}'.format(cfe.code, cfe.msg))
+
+def identifyPersonFace(face_ids,
+             person_group_id=None,
+             large_person_group_id=None,
+             max_candidates_return=1,
+             threshold=None):
+    """
+    Identify unknown faces from a person group or a large person group
+
+    [{'faceId': 'd08f491c-cf5c-40f9-acc1-4924e0988d64',
+     'candidates': [{'personId': '444ad076-fcd7-48b2-905e-b1c86f8435b7', 'confidence': 0.9471}]}]
+    """
+
+    try:
+        return CF.face.identify(face_ids,
+             person_group_id=person_group_id,
+             large_person_group_id=large_person_group_id,
+             max_candidates_return=max_candidates_return,
+             threshold=threshold)
+    except CF.util.CognitiveFaceException as cfe:
+        print('{}: {}'.format(cfe.code, cfe.msg))
 
 
+##################################### Face #########################################################
 """
 img_url = 'https://raw.githubusercontent.com/Microsoft/Cognitive-Face-Windows/master/Data/detection1.jpg'
 img = '/Users/haroon/sjsu/CMPE-295A-Campus-Safety-using-fog-computing/src/Students/Nethra/Nethra1.jpeg'
