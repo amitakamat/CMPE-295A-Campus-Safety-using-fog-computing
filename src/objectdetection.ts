@@ -33,13 +33,17 @@ fs.readFile('./tests/image/test.jpg', function(err, data) {
 var suspicious_labels = ["Gun", "Knife", "Crime", "Violence", "Concealed carry", "Stabbing", "Shooting", "Mask", "Firearm", "Weapon"];
 // Imports the Google Cloud client library
 const vision = require('@google-cloud/vision');
+var mongoClient = require('mongodb').MongoClient;
+var url = 'mongodb://localhost:27017';
+var uuid = require('uuid');
 
 // Creates a client
 const client = new vision.ImageAnnotatorClient();
 const request = {
+const request = {
     image: {
       source: {
-        filename: '../resources/ObjectImages/students-night.jpg', // Path of your image file
+        filename: '../resources/ObjectImages/student-gun.jpg', // Path of your image file
       }
     },
     imageContext: {
@@ -70,9 +74,11 @@ client
             break;
         }
     }
+    var comment = "";
     console.log("\nMatching Suspicious Labels:");
     for (var i = 0; i < matchingLabels.length; i++) {
       console.log(matchingLabels[i]);
+      comment += matchingLabels[i] + " ";
     }
     console.log("\n");
     if(!isSuspicious){
@@ -80,6 +86,26 @@ client
     }
     else{
         console.log("Result: Suspicious Photo");
+        mongoClient.connect('mongodb://localhost', { useNewUrlParser: true }, function (err, client) {
+          if (err){
+              console.log(err);
+          }
+          if(client){
+              var db = client.db('UPD');
+              if(db){
+                  var ID = uuid.v4();
+                  db.collection('historic-data').insertOne({'ID': ID, 'message': "Suspicious activity detected", 'comment': comment, 
+                        'timestamp': Date.now().toString()}, function(err, res) {
+                      if (err){
+                          console.log(err);
+                          console.log("Error inserting records in DB. Please try again!");
+                      }
+                      console.log("Log created successfully with ID " + ID);
+                      client.close();
+                  });
+              }
+          }
+      });
     }})
   .catch(err => {
     console.error('ERROR:', err);

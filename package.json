@@ -11,7 +11,9 @@
     "fs": "0.0.1-security",
     "grpc": "^1.0.1",
     "microsoft-computer-vision": "^0.3.3",
-    "request": "^2.83.0"
+    "mongodb": "^3.1.4",
+    "request": "^2.83.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@types/request": "^2.47.0",
