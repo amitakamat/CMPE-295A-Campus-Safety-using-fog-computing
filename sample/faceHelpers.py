@@ -205,19 +205,4 @@ def identifyPersonFace(face_ids,
 img_url = 'https://raw.githubusercontent.com/Microsoft/Cognitive-Face-Windows/master/Data/detection1.jpg'
 img = '/Users/haroon/sjsu/CMPE-295A-Campus-Safety-using-fog-computing/src/Students/Nethra/Nethra1.jpeg'
 result = CF.face.detect(img_url)
-
-
-/*
- //Step 2: Train person group
- faceHelpers.trainPersonGroup(personGroupId2).then(result => {
-    if (result) console.log('personGroup2 trained');
-});
-*/
-
-//Step 3: Detecting and identifying a person
-faceHelpers.detectFace('Testing/Friends.jpg').then(faceId => {
-    faceHelpers.identifyPerson(personGroupId2, faceId).then(result => {
-        console.log('Input recognized as: ' + result);
-    });
-});
 """

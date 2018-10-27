@@ -10,7 +10,6 @@ def getListOfFaces(faceList):
     Utility function to get list of faceIds from detected faces list
     """
     faceIdList = [faceDict['faceId'] for faceDict in faceList]
-    print(faceIdList)
     return faceIdList
 
 def detectAndIdentifyPerson(personGroupId):
@@ -18,7 +17,8 @@ def detectAndIdentifyPerson(personGroupId):
 
     # Detect faces in the image
     detectedFacesList = detectPersonFace(image, attributes='age,emotion,smile')
-    
+    print('printing detected faces list')
+    print(detectedFacesList)
     # Get list of detected faceId's
     detectedFaceIds = getListOfFaces(detectedFacesList) 
 
