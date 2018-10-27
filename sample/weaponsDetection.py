@@ -54,9 +54,9 @@ def report(annotations):
         #      len(annotations.web_entities)))
         is_suspicious = False
         for entity in annotations.web_entities:
-            #print('Score      : {}'.format(entity.score))
             if entity.description in suspicious_labels:
                 suspiciousObjects.append(entity.description)
+                print('Object      : {}'.format(entity.description))
                 print('Score : {}'.format(entity.score))
                 is_suspicious = True
         if is_suspicious:

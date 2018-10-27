@@ -15,14 +15,12 @@ def predictCrime(image, attributes):
     """
     # step 1: Detect faces from image
     detectedFacesList = detectPersonFace(image, attributes='emotion')
-    
-    print("\ndetected faces list:")
-    if not detectedFacesList:
-        print(detectedFacesList)
-    
+
     if not detectedFacesList:
         print('no faces detected!')
     else:
+        print("\ndetected faces list:")
+        print(detectedFacesList)
         # for each detected face perform face recognition and check the emotions
         for detectedPerson in detectedFacesList:
             # person emotions
@@ -53,7 +51,6 @@ def predictCrime(image, attributes):
 
     if detectedWeapons:
         print(detectedWeapons)
-        print(angryPersonsDict)
 
     # step 4: Send notification
 
@@ -80,8 +77,9 @@ def detectEmotions(detectedFacesList):
     return angryPersonsDict
 
 if __name__ == '__main__':
-    #image = IMAGE_FOLDER_PATH + '/Criminals/Paul/Friends.jpg'
-    image = IMAGE_FOLDER_PATH + '/Criminals/Paul/ALVAREZ,PAUL.jpg'
+    image = IMAGE_FOLDER_PATH + '/Testing/Amita.jpg'
+    #image = IMAGE_FOLDER_PATH + '/Criminals/Amita/ALVAREZ,PAUL.jpg'
     #image = IMAGE_FOLDER_PATH + '/Criminals/Michael/GAMEZ,MICHAEL.jpg'
+    image = IMAGE_FOLDER_PATH + '/ObjectImages/man-with-gun.jpg'
     attributes='emotion'
     predictCrime(image, attributes=attributes)
