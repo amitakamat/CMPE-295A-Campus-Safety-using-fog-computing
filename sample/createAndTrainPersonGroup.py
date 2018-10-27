@@ -4,8 +4,8 @@ import json
 from PersonRepository import PersonRepository
 import time
 
-personGroupId = 'sjsustudents'
-folderName = 'Students'
+personGroupId = 'criminals'
+folderName = 'Criminals'
 personRepo = PersonRepository()
 
 # Dict to store person id's of the persons created
@@ -24,7 +24,7 @@ def addPersonsToPersonGroup(personGroupId):
             print('Adding {} to person_group {}'.format(person, personGroupId))
             personIdDict = createPerson(personGroupId, person)
             personNameToPersonIdDict[person] = { 'personId' : personIdDict.get('personId'),
-                'persisted-face-id-list' : [] }
+                'persisted-face-id-list' : [], 'person' : person }
             print('Successfully added {} to person_group {}\n'.format(person, personGroupId))
         personRepo.writeToRepository(personNameToPersonIdDict, personGroupId)
     else:

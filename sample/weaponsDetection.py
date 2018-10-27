@@ -48,30 +48,29 @@ def report(annotations):
 
         for image in annotations.partial_matching_images:
             print('Url  : {}'.format(image.url))'''
-
+    suspiciousObjects = []
     if annotations.web_entities:
-        print('\n{} Web entities found: '.format(
-              len(annotations.web_entities)))
+        #print('\n{} Web entities found: '.format(
+        #      len(annotations.web_entities)))
         is_suspicious = False
         for entity in annotations.web_entities:
             #print('Score      : {}'.format(entity.score))
             if entity.description in suspicious_labels:
-                print(entity.description)
+                suspiciousObjects.append(entity.description)
                 print('Score : {}'.format(entity.score))
                 is_suspicious = True
         if is_suspicious:
             print("Suspicious Photo")
+            return suspiciousObjects
         else:
             print("Not-Suspicious Photo")
+            return suspiciousObjects
 
-
+def detectWeapons(image):
+    try:
+        return report(annotate(image))
+    except FileNotFoundError as e:
+        print(e)
 
 if __name__ == '__main__':
-    '''parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-    path_help = str('The image to detect, can be web URI, '
-                    'Google Cloud Storage, or path to local file.')
-    parser.add_argument('--image_url', default='../resources/ObjectImages/student-gun.jpg', help=path_help)
-    args = parser.parse_args()'''
     report(annotate('../resources/ObjectImages/knife-crime.jpg'))
