@@ -1,0 +1,159 @@
+body{
+    background-color: #eee;
+    color: #67697C;
+    height: 100%;
+    overflow: hidden;
+}
+
+.header{
+    text-align: center;
+    background-color: black;
+    color: white;
+    height: 10%;
+}
+
+.footer{
+    /*position: absolute;*/
+    bottom: 0;
+    width: 100%;
+    height: 8%;
+    color: white;
+    background-color: black;
+}
+
+.logo{
+    /*height: 100px;
+    width : 300px;*/
+    height: 90%;
+    width: 10%;
+}
+
+.container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+#view{
+    padding: 2%;
+    background-color: white;
+    border-radius: 5px;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
+}
+
+#view-container {
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+#table-heading {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+#options{
+    margin-top: 10px;
+}
+
+.recover-options{
+    float: left;
+    clear: left;
+    padding: 5px;
+}
+
+.text-center{
+    text-align: center;
+}
+  
+main h2 {
+    margin-left: 10px;
+    display: inline-block;
+  }
+
+main a {
+    display: block;
+    padding: 5px;
+    margin-left: 50px;
+    font-size: 15px;
+}
+  
+main > div + h2 {
+    border-top: 2px solid;
+  }
+  
+h2 button {
+    all: inherit;
+    border: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5em 0;
+  }
+  
+h2 button:focus svg {
+    outline: 2px solid;
+  }
+  
+button svg {
+    height: 1em;
+    margin-left: 0.5em;
+  }
+  
+[aria-expanded="true"] .vert {
+    display: none;
+  }
+  
+[aria-expanded] rect {
+    fill: currentColor;
+  }
+
+th {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid grey;
+    font-weight: normal;
+}
+
+thead {
+    background-color: #175676;
+    color: #F0EDEE;
+}
+
+#records-table{
+    width: 90%;
+    margin: 5%;
+}
+
+.offencestab {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 0;
+    height: 100%;
+    display: table-cell;
+}
+
+.new-entry-container {
+    display: inline-grid;
+    width: 40%;
+    margin: 2%;
+}
+.required-labels {
+    font-weight: normal;
+    font-style: italic;
+    color: #909090;
+    font-size: smaller;
+    margin-left: 5px;
+}
+
+.action-buttons{
+    width: 70px;
+}
+
+#content{
+    height: 82%;
+    display: inline-block;
+    width: 100%;
+    overflow-y: scroll;
+}

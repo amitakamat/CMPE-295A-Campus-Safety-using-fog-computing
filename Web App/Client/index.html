@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="BasicHttpAuthExample" style="height: 100%;">
+
+  <head>
+    <title>Safety Lens</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <script src="//code.angularjs.org/1.6.1/angular.js"></script>
+    <script src="//code.angularjs.org/1.6.1/angular-animate.js"></script>
+    <script src="//code.angularjs.org/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/main.css" />
+  </head>
+
+  <body>
+    <div class="header">
+      <!--<h2 style="margin-top: 0">-->
+        <img src="resources/images/logo.png" class="logo"/>
+      <!--</h2>-->
+    </div>
+    <div id="content">
+      <div class="container">
+        <div id="view" class="col-xs-offset-3 col-xs-6">
+          <div ng-view></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+        <i><h6 class="text-center" style="padding-top: 20px;">© 2018, Safety Lens, Inc or its affiliates. All rights reserved.</h6></i>
+    </div>
+
+
+
+    <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="//code.angularjs.org/1.6.1/angular-route.js"></script>
+    <script src="//code.angularjs.org/1.6.1/angular-cookies.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="modules/authentication/services.js"></script>
+    <script src="modules/authentication/controllers.js"></script>
+    <script src="modules/home/controllers.js"></script>
+  </body>
+
+</html>

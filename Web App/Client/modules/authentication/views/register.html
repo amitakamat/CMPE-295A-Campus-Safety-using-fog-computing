@@ -1,0 +1,39 @@
+<div id="view-container">
+    <h2 class="text-center">Sign up</h2><br/>
+    <div ng-show="error" class="alert alert-danger">{{error}}</div>
+    <form name="form" ng-submit="register()" role="form">
+        <div class="form-group">
+                <label for="email">Email</label>
+                <i class="fa fa-envelope"></i>
+                <input type="email" name="email" id="email" class="form-control" ng-model="email" placeholder="Enter your email"  required />
+                <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <i class="fa fa-lock"></i>
+            <input type="text" name="username" id="username" class="form-control" ng-model="username" placeholder="Enter your username"  required />
+            <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <i class="fa fa-key"></i>
+            <input type="password" name="password" id="password" class="form-control" ng-model="password" placeholder="Enter password" required />
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+        </div>
+        <div class="form-group">
+                <label for="cpassword">Confirm Password</label>
+                <i class="fa fa-key"></i>
+                <input type="password" name="cpassword" id="cpassword" class="form-control" ng-model="cpassword" placeholder="Enter password again" required />
+                <span ng-show="form.cpassword.$dirty && form.cpassword.$error.required" class="help-block">Password is required</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-success">Register</button>
+            <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+        </div>
+    </form>
+    <div id="options">
+        <div class="recover-options">
+            <a href="#">Sign in to an existing account</a>
+        </div>
+    </div>
+</div>
