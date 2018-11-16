@@ -3,6 +3,7 @@
 import json
 import os
 import abc
+import pymongo
 
 class PersonRepository1:
     """
@@ -75,37 +76,51 @@ class PersonRepository:
         print("Person with personId:{} not found in database".format(personId))
         return ""
 
+# create connection to mongoDB
+connection = pymongo.MongoClient()
+
+# select the people database
+db = connection.people
+
 class MongoRepository:
     """A class to store and retrieve person information from mongoDB"""
-    
-    def writeToRepository(self, data, fileName):
-        print('Begin: write personIds to file')
-        with open(fileName + '.json', 'w') as jsonFp:
-            json.dump(data, jsonFp)
-        print('End: write personIds to file')
+    def findAll(self, personGroupId):
+        print('Begin: Find all from Database')
+        
+        listOfNames = []
+        collection = db[personGroupId]
+        
+        cursor = collection.find({})
+        
+        for document in cursor:
+            listOfNames.append(document['First Name'])
 
-    def readFromRepository(self, fileName):
-        print('Begin: Read personIds to file')
-        with open(fileName + '.json', 'r') as jsonFp:
-            data = json.load(jsonFp)
-        print('End: Read personIds to file')
-        return data
+        print('End: Find all from Database')
+        return listOfNames
 
-    def deleteRepository(self, fileName):
-        print('Begin: delete file')
-        if os.path.exists(fileName + '.json'):
-            os.remove(fileName + '.json')
-        else:
-            print("File doesn't exists")
-        print('End: delete file')
+    def findOneDocument(self, personGroupId, firstName):
+        print('Begin: Find document from Database')
+        
+        collection = db[personGroupId]
+        
+        document = collection.find_one({"First Name":firstName})
 
-    # get person name from given personId
-    def getPersonNameFromRepository(self, fileName, personId):
-        print('\nBegin: get name MongoDB:\n')
-        with open(fileName + '.json', 'r') as jsonFp:
-            data = json.load(jsonFp)
-            for person in data:
-                if personId == data[person]["personId"]:
-                    return data[person]['person']
-        print("Person with personId:{} not found in database".format(personId))
-        return ""
+        print('End: Find document from Database')
+        return document
+
+    def deleteDocument(self, personGroupId, firstName):
+        print('Begin: delete document')
+        collection = db[personGroupId]
+        result = collection.delete_one({"First Name":firstName})
+        if result == 0:
+            print("No document found with the given First Name")
+        print('End: delete document')
+
+    def updateDocument(self, personGroupId, firstName, personIdDict):
+        print('Begin: Update document')
+        collection = db[personGroupId]
+        result = collection.update_one({"First Name":firstName},
+        {"$set": {"personIdDict" : personIdDict} })
+        if result == 0:
+            print("No document found with the given First Name")
+        print('End: Update document')

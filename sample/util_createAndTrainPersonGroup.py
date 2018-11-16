@@ -1,5 +1,6 @@
 from faceHelpers import *
 from fileHelpers import *
+from databaseHelpers import *
 import json
 from PersonRepository import PersonRepository
 import time
@@ -31,8 +32,8 @@ def addPersonsToPersonGroup(personGroupId):
         print('No persons found in location: {}'.format(folderName))
         exit(0)
 
-def addPersonsToPersonGroup(personGroupId):
-    persons = getPersons(folderName)
+def addPersonsToPersonGroupFromDatabase(personGroupId):
+    persons = getPersonsFromDB(personGroupId)
     print(persons)
     # a. Add Persons to person_group
     if type(persons) is list and len(persons) > 0:
@@ -40,10 +41,12 @@ def addPersonsToPersonGroup(personGroupId):
         for person in persons:
             print('Adding {} to person_group {}'.format(person, personGroupId))
             personIdDict = createPerson(personGroupId, person)
-            personNameToPersonIdDict[person] = { 'personId' : personIdDict.get('personId'),
-                'persisted-face-id-list' : [], 'person' : person }
+            # Add the below dict to mongoDB
+            #personNameToPersonIdDict[person] = { 'personId' : personIdDict.get('personId'),
+            personIdDict = { 'personId' : personIdDict.get('personId'),
+                'persisted-face-id-list' : []}
             print('Successfully added {} to person_group {}\n'.format(person, personGroupId))
-        personRepo.writeToRepository(personNameToPersonIdDict, personGroupId)
+        personRepo.updateDatabase(person, personGroupId, personIdDict)
     else:
         print('No persons found in location: {}'.format(folderName))
         exit(0)
