@@ -14,6 +14,7 @@ from bson.json_util import dumps
 
 app = Flask(__name__)
 
+# object to get data from database
 personRepo = PersonRepository()
 
 def detectEmotionsFromFace(detectedFacesList):
@@ -52,7 +53,7 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
     # Comma separated List to store details of things detected from images
     # Persons detected, Angry persons emotions, Weapons detected
     listOfDetectedEntities = []
-    # step 1: Detect faces from image
+    # step 1: Detect faces from image by making a call to Face API
     detectedFacesList = detectPersonFace(image, attributes='emotion')
 
     if not detectedFacesList:
@@ -68,7 +69,7 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
             # person face-id
             personFaceId   = detectedPerson['faceId']
             
-            # makes a call to face API and tries to identify the person using the faceId provided
+            # makes a call to Face API and tries to identify the person using the faceId provided
             identificationDetails = identifyPersonFace([personFaceId], personGroupId)
             print(identificationDetails)
             if identificationDetails[0]['candidates']:

@@ -98,3 +98,14 @@ class MongoRepository:
         else:
             print("File doesn't exists")
         print('End: delete file')
+
+    # get person name from given personId
+    def getPersonNameFromRepository(self, fileName, personId):
+        print('\nBegin: get name MongoDB:\n')
+        with open(fileName + '.json', 'r') as jsonFp:
+            data = json.load(jsonFp)
+            for person in data:
+                if personId == data[person]["personId"]:
+                    return data[person]['person']
+        print("Person with personId:{} not found in database".format(personId))
+        return ""
