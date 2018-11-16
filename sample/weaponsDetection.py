@@ -49,6 +49,7 @@ def report(annotations):
         for image in annotations.partial_matching_images:
             print('Url  : {}'.format(image.url))'''
     suspiciousObjects = []
+    print("\nWeapons/Object detection:")
     if annotations.web_entities:
         #print('\n{} Web entities found: '.format(
         #      len(annotations.web_entities)))
@@ -66,11 +67,16 @@ def report(annotations):
             print("Not-Suspicious Photo")
             return suspiciousObjects
 
-def detectWeapons(image):
+"""
+    Method to detect weapons in image
+"""
+def detectWeaponsInImage(image):
     try:
         return report(annotate(image))
     except FileNotFoundError as e:
         print(e)
-
+        return []
+"""
 if __name__ == '__main__':
     report(annotate('../resources/ObjectImages/knife-crime.jpg'))
+"""
