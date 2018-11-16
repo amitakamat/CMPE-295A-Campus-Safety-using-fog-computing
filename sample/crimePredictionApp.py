@@ -44,9 +44,8 @@ def detectEmotionsFromFace(detectedFacesList):
     2. Identifies angry emotions
     3. Identifies weapons if any
 """
-def predictCrime(image, attributes, personGroupId):
+def detectEntitiesFromImage(image, attributes, personGroupId):
     """
-    Predicts if crime will occur or not based on image provided
     Will Return a list of thing identifed or an empty list
     e.g. : ['person name haroon identified with confidence: 0.9 and emotions as angry', '']
     """
@@ -114,21 +113,23 @@ def getMethod():
     Post request to detect and identify a person
 """
 @app.route("/v1/detect",methods=['POST'])
-def detectAndIdentifyCrime():
+def predictCrime():
     """
-    Displays the complete shopping cart for the user
+    Predicts if crime will occur or not based on image provided
     """
     try:
         result = json.loads(request.get_data(as_text=True))
         print(result)
+
         imageUrl = result['imageUrl']
         personGroupId = result['personGroupId']
-        print("In POST of detect, imageUrl : "+ imageUrl + 
-        ", personGroupId: " + personGroupId)
-
         attributes='emotion'
-        listOfDetectedEntities = predictCrime(imageUrl, attributes, personGroupId)
+
+        listOfDetectedEntities = detectEntitiesFromImage(imageUrl, attributes, personGroupId)
         
+        # We can send notifications either here or in the detectEntitiesFromImage method
+        # if listOfDetectedEntities is empty no need to send any notifications
+
         return jsonify({"Status" : "OK", "data" : listOfDetectedEntities})
     except Exception as e:
         return jsonify(status='ERROR',message=str(e))
@@ -136,9 +137,3 @@ def detectAndIdentifyCrime():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=9999)
-
-"""
-if __name__ == '__main__':
-    personGroupId = 'criminals'
-    detectAndIdentifyPerson(personGroupId)
-"""
