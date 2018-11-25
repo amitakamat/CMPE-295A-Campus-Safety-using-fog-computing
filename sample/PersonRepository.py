@@ -5,42 +5,6 @@ import os
 import abc
 import pymongo
 
-class PersonRepository1:
-    """
-    Define the interface of interest to clients.
-    """
-
-    def __init__(self, strategy):
-        self._strategy = strategy
-
-    def writeToRepository(self, data, fileName):
-        self._strategy.writeToRepository(data, fileName)
-
-    def readFromRepository(self, fileName):
-        self._strategy.readFromRepository(fileName)
-
-    def deleteRepository(self, fileName):
-        self._strategy.deleteRepository(fileName)
-
-class Strategy(metaclass=abc.ABCMeta):
-    """
-    Declare an interface common to all supported algorithms. Context
-    uses this interface to call the algorithm defined by a
-    ConcreteStrategy.
-    """
-
-    @abc.abstractmethod
-    def writeToRepository(self, data, fileName):
-        pass
-
-    @abc.abstractmethod
-    def readFromRepository(self, fileName):
-        pass
-
-    @abc.abstractmethod
-    def adeleteRepository(self, fileName):
-        pass
-
 class PersonRepository:
     """A class to store and retrieve person information from files"""
     
@@ -77,26 +41,26 @@ class PersonRepository:
         return ""
 
 # create connection to mongoDB
-connection = pymongo.MongoClient()
+connection = pymongo.MongoClient('mongodb+srv://new_admin:admin@cluster0-h7uii.mongodb.net/CriminalDB')
 
 # select the people database
-db = connection.people
+db = connection.CriminalDB
 
 class MongoRepository:
     """A class to store and retrieve person information from mongoDB"""
-    def findAll(self, personGroupId):
+    def getData(self, personGroupId):
         print('Begin: Find all from Database')
-        
-        listOfNames = []
+
+        # The list of documents to return    
+        docList = []
+
         collection = db[personGroupId]
-        
         cursor = collection.find({})
-        
         for document in cursor:
-            listOfNames.append(document['First Name'])
+            docList.append(document)
 
         print('End: Find all from Database')
-        return listOfNames
+        return docList
 
     def findOneDocument(self, personGroupId, firstName):
         print('Begin: Find document from Database')
@@ -116,11 +80,13 @@ class MongoRepository:
             print("No document found with the given First Name")
         print('End: delete document')
 
-    def updateDocument(self, personGroupId, firstName, personIdDict):
+    def updateDocument(self, personGroupId, fullName, personId, persisted_face_id_list):
         print('Begin: Update document')
+        
         collection = db[personGroupId]
-        result = collection.update_one({"First Name":firstName},
-        {"$set": {"personIdDict" : personIdDict} })
+        result = collection.update_one( {'fullname': fullName},
+        {"$set": {'personId' : personId, 'persisted-face-id-list' : persisted_face_id_list} })
         if result == 0:
             print("No document found with the given First Name")
+
         print('End: Update document')
