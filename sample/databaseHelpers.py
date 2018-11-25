@@ -47,3 +47,10 @@ def getPersonPicturesFromDB(personName, personGroupId):
     return personPictures
 
 #print(getPersonPicturesFromDB('paul alvarez', 'criminals'))
+
+# function to get name of person using personId
+def getPersonNameFromDB(personId, personGroupId):
+    collection = db[personGroupId]
+    document = collection.find_one({"personId": personId})
+    personName = [document['fullname']]
+    return personName

@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-from PersonRepository import PersonRepository
+from PersonRepository import MongoRepository
 from faceHelpers import *
 from definitions import IMAGE_FOLDER_PATH
 from weaponsDetection import *
 from helpers import *
-
+from databaseHelpers import *
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from flask import Flask,render_template,jsonify,json,request
@@ -15,7 +15,7 @@ from bson.json_util import dumps
 app = Flask(__name__)
 
 # object to get data from database
-personRepo = PersonRepository()
+personRepo = MongoRepository()
 
 def detectEmotionsFromFace(detectedFacesList):
     """
@@ -52,7 +52,7 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
     """
     # Comma separated List to store details of things detected from images
     # Persons detected, Angry persons emotions, Weapons detected
-    listOfDetectedEntities = []
+    listOfDetectedEntities = {}
     # step 1: Detect faces from image by making a call to Face API
     detectedFacesList = detectPersonFace(image, attributes='emotion')
 
@@ -76,7 +76,7 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
                 print('face identified!')
                 personId   = identificationDetails[0]['candidates'][0]['personId']
                 confidence = identificationDetails[0]['candidates'][0]['confidence']
-                person = personRepo.getPersonNameFromRepository(personGroupId, personId)
+                person = getPersonNameFromDB(personId, personGroupId)
                 # write code to get name from database of the person identified by personId
                 printAlert('person name {} identified with confidence: {} and emotions as {}'.format(person, confidence, personEmotions))
                 listOfIdentifiedFaces.append('person name {} identified with confidence: {} and emotions as {}'.format(person, confidence, personEmotions))
@@ -86,18 +86,18 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
 
         # if any faces were identified
         if listOfIdentifiedFaces:
-            listOfDetectedEntities.append(listOfIdentifiedFaces)
+            listOfDetectedEntities['detectedFaces'] = listOfIdentifiedFaces
     
         # step 2: Detect emotions of all faces identified
         angryPersonsDict = detectEmotionsFromFace(detectedFacesList)
         
-        listOfDetectedEntities.append(angryPersonsDict)
+        listOfDetectedEntities['detectedEmotions'] = angryPersonsDict
     
     # step 3: Detect weapons
     # if weapons are detected send image of the angry persons
     detectedWeapons = detectWeaponsInImage(image)
     
-    listOfDetectedEntities.append(detectedWeapons)
+    listOfDetectedEntities['detectedWeapons'] = detectedWeapons
 
     # step 4: Send notification or Return the list of detected entities
     return listOfDetectedEntities
@@ -126,12 +126,12 @@ def predictCrime():
         personGroupId = result['personGroupId']
         attributes='emotion'
 
-        listOfDetectedEntities = detectEntitiesFromImage(imageUrl, attributes, personGroupId)
+        dictOfDetectedEntities = detectEntitiesFromImage(imageUrl, attributes, personGroupId)
         
         # We can send notifications either here or in the detectEntitiesFromImage method
-        # if listOfDetectedEntities is empty no need to send any notifications
+        # if dictOfDetectedEntities is empty no need to send any notifications
 
-        return jsonify({"Status" : "OK", "data" : listOfDetectedEntities})
+        return jsonify({"Status" : "OK", "data" : dictOfDetectedEntities})
     except Exception as e:
         return jsonify(status='ERROR',message=str(e))
 
