@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
+import sys
 from faceHelpers import *
 from fileHelpers import *
 import json
 from PersonRepository import PersonRepository
-from sys import argv
+
 
 ENDC = '\033[0m'
 
