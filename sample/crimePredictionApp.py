@@ -164,7 +164,8 @@ def predictCrime():
         # We can send notifications either here or in the detectEntitiesFromImage method
         # if dictOfDetectedEntities is empty no need to send any notifications
         sendNotification(dict(dictOfDetectedEntities))
-        return jsonify({"Status" : "OK", "data" : dictOfDetectedEntities})
+        #return jsonify({"Status" : "OK", "data" : dictOfDetectedEntities})
+        return jsonify({"Status" : "OK", "message" : "done"})
     except Exception as e:
         return jsonify(status='ERROR',message=str(e))
 
