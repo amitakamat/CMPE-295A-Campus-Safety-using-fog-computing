@@ -1,0 +1,35 @@
+<i class="fa fa-table" style="font-size:36px;"></i>
+<strong id="table-heading"><h2>Alerts</h2></strong>
+<main>
+    <strong style="display: inline-block;"><h3>Alert Details</h3></strong>
+    <button  class="btn btn-danger action-buttons" style="margin-left: 50%;" ng-click="cancel()">Back</button>
+    <hr />  
+    <div ng-show="error" class="alert alert-danger">{{error}}</div>
+    <form name="form" ng-submit="createrecord()" role="form" autocomplete="on">
+        <div id="leftcontainer" class="new-entry-container">
+            <div class="form-group">
+                <label for="timestamp">Timestamp</label>
+                <label type="text" name="timestamp" id="timestamp" class="form-control" ng-model="alert.timestamp" disabled>{{alert.timestamp}}</label>
+            </div>
+            <div class="form-group">
+                    <label for="faces">Faces</label>
+                    <i class="fa fa-user"></i>
+                    <textarea rows="3" cols="50" name="faces" id="faces" class="form-control" ng-model="alert.detectedFaces" disabled></textarea>
+             </div>
+             <div class="form-group">
+                    <label for="emotions">Emotions</label>
+                    <i class="fa fa-meh-o"></i>
+                    <textarea rows="3" cols="50" name="emotions" id="emotions" class="form-control" ng-model="alert.detectedEmotions" disabled></textarea>
+            </div>
+        </div>
+        <div id="rightcontainer" class="new-entry-container">
+            <div class="form-group">
+                <label for="weapons">Weapons</label>
+                <i class="fa fa-exclamation-triangle"></i>
+                <textarea rows="3" cols="50" name="weapons" id="weapons" class="form-control" ng-model="alert.detectedWeapons" disabled></textarea>
+            </div>
+            <center><img id= "alertimage" height="170"></center>
+        </div>
+    </form>
+    <hr />
+</main>

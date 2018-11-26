@@ -86,6 +86,7 @@ angular.module('Authentication')
                     authdata: authdata
                 }
             };
+            $rootScope.isLoggedIn = true;
  
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
             $cookieStore.put('globals', $rootScope.globals);
@@ -93,13 +94,14 @@ angular.module('Authentication')
  
         service.ClearCredentials = function () {
             $rootScope.globals = {};
+            $rootScope.isLoggedIn = false;
             $cookieStore.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic ';
         };
 
-        service.NewCriminal = function (firstname, lastname, dob, ethnicity, address, sex, contact, height, weight, offences, callback ){
+        service.NewCriminal = function (firstname, lastname, dob, ethnicity, address, sex, contact, height, weight, offences, data, callback ){
             var data = {firstname : firstname, lastname: lastname, DOB: dob, ethnicity: ethnicity, address: address, sex: sex, phone: contact, height: height, 
-                    weight: weight, offences: offences, imagePath: "http://temp.com"}
+                    weight: weight, offences: offences, imageData: data}
             $http.post(baseURL + 'criminal/', data)
                 .then(function (response) {
                     if(response.data.statuscode == 0){
@@ -119,9 +121,9 @@ angular.module('Authentication')
                 });
         };
 
-        service.UpdateCriminal = function (firstname, lastname, dob, ethnicity, address, sex, contact, height, weight, offences, callback ){
+        service.UpdateCriminal = function (firstname, lastname, dob, ethnicity, address, sex, contact, height, weight, offences, data, callback ){
             var data = {firstname : firstname, lastname: lastname, DOB: dob, ethnicity: ethnicity, address: address, sex: sex, phone: contact, height: height, 
-                    weight: weight, offences: offences, imagePath: "http://temp.com"}
+                    weight: weight, offences: offences, imageData: data}
             $http.put(baseURL + 'criminal/' + $rootScope.criminal._id, data)
                 .then(function (response) {
                     if(response.data.statuscode == 0){
@@ -161,6 +163,70 @@ angular.module('Authentication')
                     callback(response);
                 });
         };
+
+        service.GetLogs = function (callback){
+            $http.get(baseURL + 'logs/')
+                .then(function (response) {
+                    if(response.data.statuscode == 0){
+                        response.success = true;
+                        response.result = response.data.result;
+                        callback(response);
+                    }
+                    else{
+                        response.success = false;
+                        response.message = response.data.message;
+                        callback(response);
+                    } 
+                }).catch(function (response) {
+                    console.log(response);
+                    response.success = false
+                    response.message = 'Error in fetching criminal records. Please check your connection and try again.';
+                    callback(response);
+                });
+        };
+        service.GetAlertDetails = function (id, callback){
+            //callback("Details");
+            $http.get(baseURL + 'logs/' + id)
+                .then(function (response) {
+                    if(response.data.statuscode == 0){
+                        response.success = true;
+                        response.result = response.data.result;
+                        callback(response);
+                    }
+                    else{
+                        response.success = false;
+                        response.message = response.data.message;
+                        callback(response);
+                    } 
+                }).catch(function (response) {
+                    console.log(response);
+                    response.success = false
+                    response.message = 'Error in fetching alert details. Please check your connection and try again.';
+                    callback(response);
+                });
+        };
+
+        service.RemoveCriminal = function (id, callback){
+            //callback("Details");
+            $http.delete(baseURL + 'criminal/' + id)
+                .then(function (response) {
+                    if(response.data.statuscode == 0){
+                        response.success = true;
+                        response.result = response.data.message;
+                        callback(response);
+                    }
+                    else{
+                        response.success = false;
+                        response.message = response.data.message;
+                        callback(response);
+                    } 
+                }).catch(function (response) {
+                    console.log(response);
+                    response.success = false
+                    response.message = 'Error in deleting criminal record. Please check your connection and try again.';
+                    callback(response);
+                });
+        }
 
         service.GetCriminalDetails = function (id, callback){
             //callback("Details");

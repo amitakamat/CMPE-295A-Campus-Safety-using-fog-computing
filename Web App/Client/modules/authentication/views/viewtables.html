@@ -18,50 +18,16 @@
                 <tr ng-repeat="item in items">
                         <th title={{item.firstname}}>{{item.firstname}}</th>
                         <th title={{item.lastname}}>{{item.lastname}}</th>
-                        <th title={{item.sex}}>{{item.sex}}</th>
+                        <th title={{item.Sex}}>{{item.Sex}}</th>
                         <th title={{item.DOB.split('T')[0]}}>{{item.DOB.split('T')[0]}}</th>
-                        <th class="offencestab" title={{item.offences}}>{{item.offences}}</th>
+                        <th class="offencestab" title={{item.Offence}}>{{item.Offence}}</th>
                         <th>
                             <button id={{item._id}} ng-click="recordedit()" class="btn btn-success action-buttons">Edit</button>
                             <button  id={{item._id}} ng-click="recorddelete()" class="btn btn-danger action-buttons">Delete</button>
                         </th>
                 </tr>
-                <!--<tr>
-                    <th>Gonzales</th>
-                    <th>Ronald John</th>
-                    <th>Male</th>
-                    <th>4/3/1968</th>
-                    <th class="offencestab">LEWD OR LASCIVIOUS ACTS WITH A CHILD. LEWD OR LASCIVIOUS ACTS WITH A CHILD</th>
-                    <th>
-                        <button type="submit" class="btn btn-success action-buttons">Edit</button>
-                        <button type="submit" class="btn btn-danger action-buttons">Delete</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Miller</th>
-                    <th>David Michael</th>
-                    <th>Male</th>
-                    <th>8/4/1952</th>
-                    <th class="offencestab">POSSESS OR CONTROL OBSCENE MATTER</th>
-                    <th>
-                        <button type="submit" class="btn btn-success action-buttons">Edit</button>
-                        <button type="submit" class="btn btn-danger action-buttons">Delete</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Aragon</th>
-                    <th>Arthur</th>
-                    <th>Male</th>
-                    <th>6/23/1951</th>
-                    <th class="offencestab">LEWD OR LASCIVIOUS ACTS WITH A CHILD</th>
-                    <th>
-                        <button type="submit" class="btn btn-success action-buttons">Edit</button>
-                        <button type="submit" class="btn btn-danger action-buttons">Delete</button>
-                    </th>
-                </tr>-->
             </tbody>
         </table>
         <center><button type="submit" ng-click="new()" class="btn btn-success">Add Record</button></center>
     <hr />
 </main>
-<p><a href="" ng-click="logout()">Logout</a></a></p>

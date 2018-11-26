@@ -20,6 +20,15 @@
         <img src="resources/images/logo.png" class="logo"/>
       <!--</h2>-->
     </div>
+    <div id="menu" ng-controller="NavMenuController" ng-show=isLoggedIn>
+      <ul>
+        <li><a href="" ng-click="logout()">Logout</a></li>
+        <!--<li><a href="#about">Settings</a></li>-->
+        <li><a href="" ng-click="viewLogs()">Logs</a></li>
+        <li><a href="" ng-click="viewCriminals()">Criminals</a></li>
+        <li><a class="active" href="" ng-click="viewHome()">Home</a></li>
+      </ul>
+    </div>
     <div id="content">
       <div class="container">
         <div id="view" class="col-xs-offset-3 col-xs-6">

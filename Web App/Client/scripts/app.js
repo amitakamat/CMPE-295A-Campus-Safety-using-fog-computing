@@ -53,6 +53,12 @@ angular.module('BasicHttpAuthExample', [
             templateUrl: 'modules/authentication/views/viewlogs.html',
             hideMenus: true
         })
+
+        .when('/alert', {
+            controller: 'AlertsController',
+            templateUrl: 'modules/authentication/views/alert.html',
+            hideMenus: true
+        })
  
         .otherwise({ redirectTo: '/login' });
 }])

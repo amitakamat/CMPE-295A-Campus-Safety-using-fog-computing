@@ -1,7 +1,7 @@
 <i class="fa fa-table" style="font-size:36px;"></i>
 <strong id="table-heading"><h2>Criminal Records</h2></strong>
 <main>
-    <strong style="display: inline-block;"><h3>New Criminal Record</h3></strong>
+    <strong style="display: inline-block;"><h3>{{criminal == undefined ? 'New Criminal Record': 'Update Criminal Record'}}</h3></strong>
     <button  class="btn btn-danger action-buttons" style="margin-left: 50%;" ng-click="cancel()">Cancel</button>
     <hr />  
     <div ng-show="error" class="alert alert-danger">{{error}}</div>
@@ -28,43 +28,43 @@
             <div class="form-group">
                     <label for="ethnicity">Ethnicity</label>
                     <i class="fa fa-globe"></i>
-                    <input type="text" name="ethnicity" id="ethnicity" class="form-control" ng-model="criminal.ethinicity" placeholder="Enter ethnicity" />
+                    <input type="text" name="ethnicity" id="ethnicity" class="form-control" ng-model="criminal.Ethnicity" placeholder="Enter ethnicity" />
             </div>
             <div class="form-group">
                     <label for="address">Address</label>
                     <i class="fa fa-map-marker"></i>
-                    <input type="text" name="address" id="address" class="form-control" ng-model="criminal.address" placeholder="Enter address" />
+                    <input type="text" name="address" id="address" class="form-control" ng-model="criminal.Address" placeholder="Enter address" />
             </div>
             <div class="form-group">
                     <label for="sex">Sex</label>
                     <i class="fa fa-user"></i>
                     <label class="required-labels">  (Required)</label>
-                    <select name="sex" id="sex" class="form-control" ng-model="criminal.sex" required>
+                    <select name="sex" id="sex" class="form-control" ng-model="criminal.Sex" required>
                         <option value="male" selected="selected">Male</option>
                         <option value="female">Female</option>
                     </select>
                     <span ng-show="form.sex.$dirty && form.sex.$error.required" class="help-block">Sex is required</span>
             </div>
+            <div class="form-group">
+                <label for="contact">Contact Number</label>
+                <i class="fa fa-phone"></i>
+                <input type="number" name="contact" id="contact" class="form-control" ng-model="criminal.Contact" placeholder="Enter contact number"  />
+            </div>
         </div>
         <div id="rightcontainer" class="new-entry-container">
             <div class="form-group">
-                    <label for="contact">Contact Number</label>
-                    <i class="fa fa-phone"></i>
-                    <input type="number" name="contact" id="contact" class="form-control" ng-model="criminal.phone" placeholder="Enter contact number"  />
-            </div>
-            <div class="form-group">
                     <label for="height">Height</label>
-                    <input type="number" name="height" id="height" class="form-control" ng-model="criminal.height" placeholder="Enter height in cms"  />
+                    <input type="text" name="height" id="height" class="form-control" ng-model="criminal.Height" placeholder="Enter height in cms"  />
             </div>
             <div class="form-group">
                 <label for="weight">Weight</label>
-                <input type="number" name="weight" id="weight" class="form-control" ng-model="criminal.weight" placeholder="Enter weight in lbs" />
+                <input type="text" name="weight" id="weight" class="form-control" ng-model="criminal.Weight" placeholder="Enter weight in lbs" />
             </div>
             <div class="form-group">
                 <label for="offences">Offences</label>
                 <i class="fa fa-info"></i>
                 <label class="required-labels">  (Required)</label>
-                <textarea rows="3" cols="50" name="offences" id="offences" class="form-control" ng-model="criminal.offences" placeholder="Enter offences in detail" required>
+                <textarea rows="3" cols="50" name="offences" id="offences" class="form-control" ng-model="criminal.Offence" placeholder="Enter offences in detail" required>
                     Enter offences in detail</textarea>
                 <span ng-show="form.offences.$dirty && form.offences.$error.required" class="help-block">Offences is required</span>
             </div>
@@ -72,18 +72,18 @@
                 <label for="uploadphoto">Upload a photo</label>
                 <i class="fa fa-file-image-o"></i>
                 <label class="required-labels">  (Required)</label><br/>
-                Select a file: <input type="file" name="uploadphoto" id="uploadphoto" class="form-control" ng-model="criminal.imagePath" placeholder="Select criminal photo" >
+                Select a file: <input type="file" name="uploadphoto" id="uploadphoto" class="form-control" ng-model="criminal.imagePath" placeholder="Select criminal photo" onchange="angular.element(this).scope().previewFile()">
+                <br/><center><img id= "criminalimage" height="150"></center>
                 <!--Select a file: <input type="file" name="uploadphoto" id="uploadphoto" class="form-control" ng-model="uploadphoto" placeholder="Select criminal photo"  required >
                 <span ng-show="form.uploadphoto.$dirty && form.uploadphoto.$error.required" class="help-block">Criminal photo is required</span>-->
             </div>
         </div>
         <div class="form-actions">
             <center>
-                <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-success action-buttons">{{criminal == undefined ? 'Create' : 'Update'}}</button>
+                <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-success action-buttons">{{isNewCriminal == undefined ? 'Create' : 'Update'}}</button>
                 <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
             </center>
         </div>
     </form>
     <hr />
 </main>
-<p><a href="" ng-click="logout()">Logout</a></a></p>

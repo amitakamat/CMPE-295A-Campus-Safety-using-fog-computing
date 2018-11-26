@@ -6,34 +6,15 @@
             <thead>
                 <tr>
                     <th>Timestamp</th>
-                    <th>Message</th>
-                    <th>Actions</th>
+                    <th>Facial Detection</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th>2018-02-02 15:02:01</th>
-                    <th class="offencestab">Unknown suspicious person spotted on campus</th>
-                    <th>
-                        <button type="submit" class="btn btn-success">View details</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>2018-02-02 12:30:52</th>
-                    <th class="offencestab">Mr John Doe spotted on campus</th>
-                    <th>
-                        <button type="submit" class="btn btn-success">View details</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>2018-10-02 02:01:32</th>
-                    <th class="offencestab">Ms Angela Lewis spotted on the campus</th>
-                    <th>
-                        <button type="submit" class="btn btn-success">View details</button>
-                    </th>
+                <tr ng-repeat="item in items" id={{item._id}} ng-click="viewalert()">
+                    <th id={{item._id}} title={{item.timestamp.split('T')[0]}}>{{item.timestamp.split('T')[0]}}</th>
+                    <th id={{item._id}}>{{item.detectedFaces.length == 0 ? 'No Criminals detected' : 'Criminals detected'}}</th>
                 </tr>
             </tbody>
         </table>
     <hr />
 </main>
-<p><a href="" ng-click="logout()">Logout</a></a></p>
