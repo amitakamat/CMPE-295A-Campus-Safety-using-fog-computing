@@ -90,3 +90,9 @@ class MongoRepository:
             print("No document found with the given First Name")
 
         print('End: Update document')
+
+    def addAlert(self, document):
+        print('Begin: Add alert')
+        collection = db['alerts']
+        collection.insert_one(document)
+        print('End: Add alert')

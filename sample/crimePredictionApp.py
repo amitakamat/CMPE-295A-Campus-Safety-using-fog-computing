@@ -11,6 +11,8 @@ from bson.objectid import ObjectId
 from flask import Flask,render_template,jsonify,json,request
 from pprint import pprint
 from bson.json_util import dumps
+import base64
+import datetime
 
 app = Flask(__name__)
 
@@ -85,8 +87,7 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
         pass
 
         # if any faces were identified
-        if listOfIdentifiedFaces:
-            listOfDetectedEntities['detectedFaces'] = listOfIdentifiedFaces
+        listOfDetectedEntities['detectedFaces'] = listOfIdentifiedFaces
     
         # step 2: Detect emotions of all faces identified
         angryPersonsDict = detectEmotionsFromFace(detectedFacesList)
@@ -99,9 +100,37 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
     
     listOfDetectedEntities['detectedWeapons'] = detectedWeapons
 
+    # Read the image, b64encode it and convert it to string to store in DB
+    imageObj = open(image, 'rb')
+    encodedImageString = base64.b64encode(imageObj.read()).decode("utf-8")
+    listOfDetectedEntities['imageData'] = encodedImageString
+
+    # Add timestamp
+    listOfDetectedEntities['timestamp'] = st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    
+    image_result = open('testingimage1.jpg', 'wb')
+    b64Img = base64.b64decode(encodedImageString)
+    image_result.write(b64Img)
     # step 4: Send notification or Return the list of detected entities
     return listOfDetectedEntities
+##########################################################################################
 
+def sendNotification(entities):
+    """
+        If there is anything suspicious, add it to alerts and send notification
+    """
+    alert = False
+
+    # Iterate through the dictionary and see if faces, emotions or weapons are detected
+    for key, value in entities.items():
+        if key == 'detectedFaces' or key == 'detectedWeapons' or key == 'detectedEmotions' and value:
+            # Set alert to true
+            alert = True
+            pass
+    
+    # If True then write to alert database
+    if alert:
+        personRepo.addAlert(entities)
 ################################## API's #######################################
 """
     Simple get request to test the app
@@ -130,7 +159,7 @@ def predictCrime():
         
         # We can send notifications either here or in the detectEntitiesFromImage method
         # if dictOfDetectedEntities is empty no need to send any notifications
-
+        sendNotification(dict(dictOfDetectedEntities))
         return jsonify({"Status" : "OK", "data" : dictOfDetectedEntities})
     except Exception as e:
         return jsonify(status='ERROR',message=str(e))
