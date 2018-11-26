@@ -7,10 +7,12 @@ import time
 import base64
 import definitions
 
-personGroupId = 'criminals'
-folderName = 'Criminals'
+#personGroupId = 'criminals'
+#originalCollection = 'criminalRecords'
 
-#personRepo = PersonRepository()
+personGroupId = 'students'
+originalCollection = 'studentRecords'
+
 personRepo = MongoRepository()
 
 # Dict to store person id's of the persons created
@@ -22,7 +24,7 @@ personNameToPersonIdDict = {}
 def addPersonsToPersonGroup(personGroupId):
     # Step 1: Create a new collection from existing collection and name it as personGroupId
     try:
-        createNewCollection(personGroupId)
+        createNewCollection(originalCollection, personGroupId)
     except Exception as e:
         print(e)
         print('collection already created!')

@@ -8,10 +8,10 @@ connection = pymongo.MongoClient('mongodb+srv://new_admin:admin@cluster0-h7uii.m
 db = connection.CriminalDB
 
 # This is the original collection. Do not modify it
-originalCollection = 'criminalRecords'
+#originalCollection = 'criminalRecords'
 
 #function to create new collection from existing collection
-def createNewCollection(personGroupId):
+def createNewCollection(originalCollection, personGroupId):
     """
         Creates a new collection with given name and adds fullname attribute to the collection
     """

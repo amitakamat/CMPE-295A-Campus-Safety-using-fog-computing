@@ -107,11 +107,14 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
     listOfDetectedEntities['imageData'] = encodedImageString
 
     # Add timestamp
-    listOfDetectedEntities['timestamp'] = st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    listOfDetectedEntities['timestamp'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     
+    """
+    To Decode:
     image_result = open('testingimage1.jpg', 'wb')
     b64Img = base64.b64decode(encodedImageString)
     image_result.write(b64Img)
+    """
     # step 4: Send notification or Return the list of detected entities
     return listOfDetectedEntities
 ##########################################################################################
