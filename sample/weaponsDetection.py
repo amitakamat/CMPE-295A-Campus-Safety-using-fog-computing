@@ -4,7 +4,7 @@ import io
 from google.cloud import vision
 from google.cloud.vision import types
 
-suspicious_labels = ["Gun", "Knife", "Crime", "Violence", "Concealed carry", "Stabbing", "Shooting", "Mask", "Firearm", "Weapon"];
+suspicious_labels = ["Gun", "Knife", "Violence", "Concealed carry", "Shooting", "Mask", "Firearm", "Weapon"];
 
 
 def annotate(path):
@@ -54,7 +54,9 @@ def report(annotations):
         #print('\n{} Web entities found: '.format(
         #      len(annotations.web_entities)))
         is_suspicious = False
+        entities = []
         for entity in annotations.web_entities:
+            entities.append(entity)
             if entity.description in suspicious_labels:
                 suspiciousObjects.append(entity.description)
                 print('Object      : {}'.format(entity.description))
@@ -66,6 +68,7 @@ def report(annotations):
         else:
             print("Not-Suspicious Photo")
             return suspiciousObjects
+        
 
 """
     Method to detect weapons in image

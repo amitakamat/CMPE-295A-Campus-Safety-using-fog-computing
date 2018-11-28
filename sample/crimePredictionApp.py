@@ -2,7 +2,7 @@
 
 from PersonRepository import MongoRepository
 from faceHelpers import *
-from definitions import IMAGE_FOLDER_PATH
+from definitions import *
 from weaponsDetection import *
 from helpers import *
 from databaseHelpers import *
@@ -14,6 +14,7 @@ from bson.json_util import dumps
 import base64
 import time
 import datetime
+import requests
 
 app = Flask(__name__)
 
@@ -56,6 +57,9 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
     # Comma separated List to store details of things detected from images
     # Persons detected, Angry persons emotions, Weapons detected
     listOfDetectedEntities = {}
+
+    listOfDetectedEntities['detectedEmotions'] = []
+    listOfDetectedEntities['detectedFaces']    = []
     # step 1: Detect faces from image by making a call to Face API
     detectedFacesList = detectPersonFace(image, attributes='emotion')
 
@@ -101,7 +105,8 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
     
     listOfDetectedEntities['detectedWeapons'] = detectedWeapons
 
-    # Read the image, b64encode it and convert it to string to store in DB
+    # Annotate image with faceRectangle
+    # Read the image, b64encode it and convert it to string to store in DB    
     imageObj = open(image, 'rb')
     encodedImageString = base64.b64encode(imageObj.read()).decode("utf-8")
     listOfDetectedEntities['imageData'] = encodedImageString
@@ -127,7 +132,7 @@ def sendNotification(entities):
 
     # Iterate through the dictionary and see if faces, emotions or weapons are detected
     for key, value in entities.items():
-        if key == 'detectedFaces' or key == 'detectedWeapons' or key == 'detectedEmotions' and value:
+        if (key == 'detectedFaces' or key == 'detectedWeapons' or key == 'detectedEmotions') and value:
             # Set alert to true
             alert = True
             pass
@@ -135,6 +140,33 @@ def sendNotification(entities):
     # If True then write to alert database
     if alert:
         personRepo.addAlert(entities)
+
+        message = ''
+        for key, value in entities.items():
+            if (key == 'detectedFaces' or key == 'detectedEmotions')  and value:
+                message += "Detected Faces: "
+                for val in value:
+                    message += val+ "."
+            if key == 'detectedWeapons' and value:
+                message += " Detected Weapons: "
+                for val in value:
+                    message += val+ "/"
+
+        data = {}
+        data["message"]   = message
+        data["timestamp"] = entities["timestamp"]
+        data["imageData"] = base64.b64decode(entities["imageData"])
+        print(data)
+        print(type(entities["imageData"]))
+        url="http://35.185.202.31:5000/send"
+        headers = {'Content-Type': 'application/json'}
+        payload = {"data" : data, "topic" : "crime"}
+        
+        jsonifiedPayload = json.dumps(payload)
+        response = requests.request("POST", url, data=jsonifiedPayload, headers=headers)
+        print(response.text)
+
+
 ################################## API's #######################################
 """
     Simple get request to test the app

@@ -8,7 +8,7 @@ import base64
 import definitions
 
 #personGroupId = 'criminals'
-#originalCollection = 'criminalRecords'
+#originalCollection = 'criminals2'
 
 personGroupId = 'students'
 originalCollection = 'studentRecords'
