@@ -160,14 +160,12 @@ def sendNotification(entities):
                 for val in value:
                     message += val+ "/"
 
-        data = {'_id' : id}
-
-        """
+        data = {}
+        data["_id"]       = id
         data["message"]   = message
         data["timestamp"] = entities["timestamp"]
         #data["imageData"] = entities["imageData"]
-        """
-
+        
         url="http://35.185.202.31:5000/send"
         headers = {'Content-Type': 'application/json'}
         payload = {"data" : data, "topic" : "crime"}
