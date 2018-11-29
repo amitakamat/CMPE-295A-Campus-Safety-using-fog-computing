@@ -15,8 +15,17 @@ import base64
 import time
 import datetime
 import requests
+from bson import json_util, ObjectId
 
 app = Flask(__name__)
+
+# Custom JSON encoder to encode MongoDB ObjectId
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
 
 # object to get data from database
 personRepo = MongoRepository()
@@ -139,8 +148,7 @@ def sendNotification(entities):
     
     # If True then write to alert database
     if alert:
-        personRepo.addAlert(entities)
-
+        id = personRepo.addAlert(entities)
         message = ''
         for key, value in entities.items():
             if (key == 'detectedFaces' or key == 'detectedEmotions')  and value:
@@ -152,17 +160,23 @@ def sendNotification(entities):
                 for val in value:
                     message += val+ "/"
 
-        data = {}
+        data = {'_id' : id}
+
+        """
         data["message"]   = message
         data["timestamp"] = entities["timestamp"]
-        data["imageData"] = base64.b64decode(entities["imageData"])
-        print(data)
-        print(type(entities["imageData"]))
+        #data["imageData"] = entities["imageData"]
+        """
+
         url="http://35.185.202.31:5000/send"
         headers = {'Content-Type': 'application/json'}
         payload = {"data" : data, "topic" : "crime"}
         
-        jsonifiedPayload = json.dumps(payload)
+        #jsonifiedPayload = json.encode(data, cls=JSONEncoder)
+
+        jsonifiedPayload = json.loads(json_util.dumps(payload))
+        print(jsonifiedPayload)
+        #jsonifiedPayload = json.dumps(payload)
         response = requests.request("POST", url, data=jsonifiedPayload, headers=headers)
         print(response.text)
 

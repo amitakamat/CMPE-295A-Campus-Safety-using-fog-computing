@@ -94,5 +94,7 @@ class MongoRepository:
     def addAlert(self, document):
         print('Begin: Add alert')
         collection = db['alerts']
-        collection.insert_one(document)
+        result = collection.insert_one(document)
         print('End: Add alert')
+        return result.inserted_id
+        
