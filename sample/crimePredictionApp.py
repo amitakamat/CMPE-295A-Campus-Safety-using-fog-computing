@@ -16,6 +16,9 @@ import time
 import datetime
 import requests
 from bson import json_util, ObjectId
+import os
+from io import BytesIO
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -115,9 +118,20 @@ def detectEntitiesFromImage(image, attributes, personGroupId):
     listOfDetectedEntities['detectedWeapons'] = detectedWeapons
 
     # Annotate image with faceRectangle
-    # Read the image, b64encode it and convert it to string to store in DB    
+    # Read the image, b64encode it and convert it to string to store in DB
+    """
+    Original code:
     imageObj = open(image, 'rb')
     encodedImageString = base64.b64encode(imageObj.read()).decode("utf-8")
+    """
+
+    buffered = BytesIO()
+    image = Image.open(image)
+    size = (400, 400)
+    image.thumbnail(size)
+
+    image.save(buffered, format="JPEG")
+    encodedImageString = base64.b64encode(buffered.getvalue()).decode("utf-8")
     listOfDetectedEntities['imageData'] = encodedImageString
 
     # Add timestamp
@@ -144,6 +158,7 @@ def sendNotification(entities):
         if (key == 'detectedFaces' or key == 'detectedWeapons' or key == 'detectedEmotions') and value:
             # Set alert to true
             alert = True
+            print(key)
             pass
     
     # If True then write to alert database
@@ -169,12 +184,13 @@ def sendNotification(entities):
         url="http://35.185.202.31:5000/send"
         headers = {'Content-Type': 'application/json'}
         payload = {"data" : data, "topic" : "crime"}
-        
-        #jsonifiedPayload = json.encode(data, cls=JSONEncoder)
 
         jsonifiedPayload = json.loads(json_util.dumps(payload))
+        jsonifiedPayload["data"]["id"] = jsonifiedPayload["data"]["_id"]["$oid"]
+        del jsonifiedPayload["data"]["_id"]
+        
+        jsonifiedPayload = json.dumps(jsonifiedPayload)
         print(jsonifiedPayload)
-        #jsonifiedPayload = json.dumps(payload)
         response = requests.request("POST", url, data=jsonifiedPayload, headers=headers)
         print(response.text)
 
