@@ -1,19 +1,22 @@
 <resources>
     <string name="app_name">CampusWatch</string>
-    <string name="sign_in">Sign In</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_name">Name</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="quickstart_message">Click the SUBSCRIBE TO WEATHER button below to subscribe to the
+        weather topic. Messages sent to the weather topic will be received. The LOG TOKEN button logs the
+        InstanceID token to logcat.</string>
+    <string name="subscribe_to_channel">Subscribe To Alerts</string>
+    <string name="log_token">Log Token</string>
+
+    <string name="msg_subscribed">Subscribed to campus safety alerts</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!--
+        This is the name that users will see when interacting with this channel.
+        It should describe the category of notifications that will be sent through this channel
+     -->
+    <string name="default_notification_channel_name" translatable="true">crime</string>
+    <string name="msg_subscribe_failed">Failed to subscribe to campus safety alerts</string>
+    <string name="fcm_message">Campus Watch Alert</string>
+    <string name="text_display">Campus Watch</string>
 </resources>
